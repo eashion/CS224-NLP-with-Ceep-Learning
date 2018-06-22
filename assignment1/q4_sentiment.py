@@ -52,7 +52,7 @@ def getSentenceFeatures(tokens, wordVectors, sentence):
     for word in sentence:
         token = tokens[word]
         sentVector += wordVectors[token]
-    sentVector /= sentence.shape[0]
+    sentVector /= len(sentence)
     ### END YOUR CODE
 
     assert sentVector.shape == (wordVectors.shape[1],)
@@ -66,7 +66,7 @@ def getRegularizationValues():
     """
     values = None   # Assign a list of floats in the block below
     ### YOUR CODE HERE
-    values = [10**i for i in np.random.uniform(-5, 0, 10)]
+    values = np.logspace(-4, 2, num=100, base=10)
     ### END YOUR CODE
     return sorted(values)
 
