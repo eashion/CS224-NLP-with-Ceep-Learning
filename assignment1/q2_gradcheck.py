@@ -9,8 +9,8 @@ def gradcheck_naive(f, x):
     """ Gradient check for a function f.
 
     Arguments:
-    f -- a function that takes a single argument and outputs the
-         cost and its gradients
+    f -- a function that takes a single argument
+        and outputs the cost and its gradients
     x -- the point (numpy array) to check the gradient at
     """
 
@@ -36,10 +36,16 @@ def gradcheck_naive(f, x):
         # before calling f(x) each time. This will make it possible
         # to test cost functions with built in randomness later.
 
-        ### YOUR CODE HERE:
-        raise NotImplementedError
-        ### END YOUR CODE
+        store = x[ix]
+        x[ix] = store + h
+        random.setstate(rndstate)
+        out1 = f(x)[0]
 
+        x[ix] = store - h
+        random.setstate(rndstate)
+        out2 = f(x)[0]
+        x[ix] = store
+        numgrad = (out1 - out2)/(2*h)
         # Compare gradients
         reldiff = abs(numgrad - grad[ix]) / max(1, abs(numgrad), abs(grad[ix]))
         if reldiff > 1e-5:
@@ -82,4 +88,4 @@ def your_sanity_checks():
 
 if __name__ == "__main__":
     sanity_check()
-    your_sanity_checks()
+    #your_sanity_checks()
